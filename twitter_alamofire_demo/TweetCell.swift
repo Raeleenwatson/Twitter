@@ -24,6 +24,7 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
+            //set outlets equal to stuff 
             refreshData()
         }
     }

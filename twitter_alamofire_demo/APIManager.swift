@@ -38,7 +38,7 @@ class APIManager: SessionManager {
                 if let error = error {
                     failure(error)
                 } else if let user = user {
-                    print("Welcome \(String(describing: user.name))")
+                    print("Welcome \(user.name)")
                     
                     // MARK: TODO: set User.current, so that it's persisted
                     
@@ -144,19 +144,29 @@ class APIManager: SessionManager {
         }
     }
     
+    func getNewHomeTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
+        // 1. Create a GET Request that returns a JSON response
+        request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get).validate().responseJSON { (response) in
+            // 2. Verify succes
+            if response.result.isSuccess,
+                let tweetDictionaries = response.result.value as? [[String: Any]] {
+                // Success
+                //let tweets = Tweet.tweetsWith(tweetDictionaries)
+                let tweets = Tweet.tweets(with: tweetDictionaries)
+                completion(tweets, nil)
+            } else {
+                // There was a problem
+                completion(nil, response.result.error)
+            }
+        }
+    }
+    
     func getHomeTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
         
         // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
         // tweets,
-        if let data = UserDefaults.standard.object(forKey: "hometimeline_tweets") as? Data {
-            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
-            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
-                Tweet(dictionary: dictionary)
-            })
-            
-            completion(tweets, nil)
-            return
-        }
+       
+    
         
         request(URL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")!, method: .get)
             .validate()
@@ -184,14 +194,6 @@ class APIManager: SessionManager {
                 }
         }
     }
-    
-    // MARK: TODO: Favorite a Tweet
-    
-    // MARK: TODO: Un-Favorite a Tweet
-    
-    // MARK: TODO: Retweet
-    
-    // MARK: TODO: Un-Retweet
     
     // MARK: TODO: Compose Tweet
     

@@ -25,7 +25,7 @@
 			<string>com.codepath.twitter-alamofire-demo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>alamoTwitter://</string>
+				<string>alamoTwitter</string>
 			</array>
 		</dict>
 	</array>
