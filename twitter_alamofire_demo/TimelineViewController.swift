@@ -15,10 +15,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     var tweets: [Tweet] = []
     @IBOutlet weak var tableView: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         let refreshControl = UIRefreshControl()
          refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
@@ -34,8 +33,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func didLogout(_ sender: Any) {
         APIManager.logout()
     }
-    
-
     
     
     
@@ -76,5 +73,13 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let cell = sender as! UITableViewCell
+    if let indexPath = tableView.indexPath(for: cell){
+        let tweet = tweets[indexPath.row]
+        let detailViewController = segue.destination as! DetailViewController
+        detailViewController.tweet = tweet
+    }
+}
 
 }
