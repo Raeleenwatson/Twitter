@@ -18,7 +18,7 @@ class Tweet {
     var retweetCount: Int // Update favorite count label
     var retweeted: Bool? // Configure retweet button
     var user: User? // Author of the Tweet
-    var createdAtString: String? // String representation of date posted
+    var createdAt: String? // String representation of date posted
     
     // For Retweets
     var retweetedByUser: User?  // user who retweeted if tweet is retweet
@@ -58,7 +58,7 @@ class Tweet {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         // Convert Date to String and set the createdAtString property
-        createdAtString = formatter.string(from: date)
+        createdAt = formatter.string(from: date)
         
     }
     

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AFNetworking
+import ActiveLabel
 
 class TweetCell: UITableViewCell {
 
@@ -18,8 +20,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favoritedLabel: UILabel!
-    @IBOutlet weak var favoritedButton: UIButton!
-    
+    @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
     
     var tweet: Tweet! {
@@ -31,15 +32,17 @@ class TweetCell: UITableViewCell {
     
     
     @IBAction func didTapFavorite(_ sender: Any) {
+    //print("bad")
         if(tweet.favorited == false){
             tweet.favorited = true
             tweet.favoriteCount += 1
             refreshData()
             APIManager.shared.favorite( tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
+                    print("bad2")
                     print("Error favoriting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {
-                    print("Successfully favorited the following Tweet: \n\(String(describing: tweet.text))")
+                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
                 }
             }
         }
@@ -51,11 +54,12 @@ class TweetCell: UITableViewCell {
                 if let  error = error {
                     print("Error unfavoriting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {
-                    print("Successfully unfavorited the following Tweet: \n\(String(describing: tweet.text))")
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
                 }
                 
             }
         }
+        
     }
     
     
@@ -91,21 +95,30 @@ class TweetCell: UITableViewCell {
     
     func refreshData() {
         
-//        if(tweet.favorited)!{
-//            favoritedButton.setImage(#imageLiteral(resourceName: "favor-icon-red"), for: .normal)
-//        }
-//        if(tweet.favorited == false){
-//            favoritedButton.setImage(#imageLiteral(resourceName: "favor-icon"), for: .normal)
-//        }
-//        if(tweet.retweeted)!{
-//            retweetButton.setImage(#imageLiteral(resourceName: "retweet-icon-green"), for: .normal)
-//        }
-//        if(tweet.retweeted==false){
-//            retweetButton.setImage(#imageLiteral(resourceName: "retweet-icon"), for: .normal)
-//        }
-//
-//        let profileImage = NSURL(string: tweet.!)
-//        tweetImageView.setImageWith(profileImage! as URL)
+        tweetTextLabel.text = tweet.text
+        usernameLabel.text = tweet.user!.name
+        screenNameLabel.text = tweet.user!.screenName
+        createdAtLabel.text = tweet.createdAt
+        retweetLabel.text = String(tweet.retweetCount)
+        favoritedLabel.text = String(tweet.favoriteCount)
+        tweetImageView.image = nil
+        
+        
+        if(tweet.favorited)!{
+            favoriteButton.setImage(#imageLiteral(resourceName: "favor-icon-red"), for: .normal)
+        }
+        if(tweet.favorited == false){
+            favoriteButton.setImage(#imageLiteral(resourceName: "favor-icon"), for: .normal)
+        }
+        if(tweet.retweeted)!{
+            retweetButton.setImage(#imageLiteral(resourceName: "retweet-icon-green"), for: .normal)
+        }
+        if(tweet.retweeted==false){
+            retweetButton.setImage(#imageLiteral(resourceName: "retweet-icon"), for: .normal)
+        }
+
+        let profileImage = NSURL(string: tweet.user!.profileImage!)
+        tweetImageView.setImageWith(profileImage! as URL)
     }
     
     

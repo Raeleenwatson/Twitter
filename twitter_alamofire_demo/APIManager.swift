@@ -52,8 +52,12 @@ class APIManager: SessionManager {
     }
     
     func unfavorite(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/favorites/destroy.json"
+        let urlString = "https://api.twitter.com/1.1/statuses/unfavorite/"
+        let end = ".json"
         let parameters = ["id": tweet.id]
+        let id = String(tweet.id)
+        let url = urlString + id + end
+        print(url)
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
@@ -96,8 +100,11 @@ class APIManager: SessionManager {
     }
     
     func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/favorites/create.json"
+        let urlString = "https://api.twitter.com/1.1/statuses/favorite/"
+        let idString = String(tweet.id)
         let parameters = ["id": tweet.id]
+        let url = urlString + idString + ".json"
+        print(url)
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
