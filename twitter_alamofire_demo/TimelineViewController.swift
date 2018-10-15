@@ -9,7 +9,6 @@
 import UIKit
 
 
-
 class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tweets: [Tweet] = []
@@ -25,15 +24,28 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
+        APIManager.shared.getHomeTimeLine { (tweets, error) in
+            if let tweets = tweets {
+                self.tweets = tweets
+                self.tableView.reloadData()
+            } else if let error = error {
+                print("Error getting home timeline: " + error.localizedDescription)
+            }
+        }
+        
 
         // Do any additional setup after loading the view.
+    }
+    
+    func did(post: Tweet){
+        tweets.insert(post, at: 0)
+        tableView.reloadData()
     }
     
     
     @IBAction func didLogout(_ sender: Any) {
         APIManager.logout()
     }
-    
     
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
@@ -73,13 +85,22 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    let cell = sender as! UITableViewCell
-    if let indexPath = tableView.indexPath(for: cell){
-        let tweet = tweets[indexPath.row]
-        let detailViewController = segue.destination as! DetailViewController
-        detailViewController.tweet = tweet
+   
+    @IBAction func didTapCompose(_ sender: Any) {
+        print("TL")
+        self.performSegue(withIdentifier: "composeSegue", sender: nil)
     }
-}
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let detailViewController = segue.destination as? DetailViewController {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell){
+                let tweet = tweets[indexPath.row]
+                detailViewController.tweet = tweet
+            }
+            
+        }
+        
+    }
 
 }

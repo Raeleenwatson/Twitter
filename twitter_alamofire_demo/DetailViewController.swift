@@ -42,6 +42,11 @@ class DetailViewController: UIViewController {
     }
     
     
+    
+    @IBAction func onReply(_ sender: Any) {
+    }
+    
+    
     @IBAction func onRetweet(_ sender: Any) {
         if(tweet?.retweeted == false){
         tweet.retweeted = true
@@ -117,6 +122,11 @@ class DetailViewController: UIViewController {
         }
         
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let replyViewController = segue.destination as! ReplyViewController
+        replyViewController.tweet = tweet
     }
     
     
