@@ -47,6 +47,7 @@ class DetailViewController: UIViewController {
     }
     
     
+    
     @IBAction func onRetweet(_ sender: Any) {
         if(tweet?.retweeted == false){
         tweet.retweeted = true
@@ -81,7 +82,7 @@ class DetailViewController: UIViewController {
             tweet.favorited = true
             tweet.favoriteCount += 1
             refreshData()
-            APIManager.shared.favorite( tweet) { (tweet: Tweet?, error: Error?) in
+            APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error favoriting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {
@@ -93,7 +94,7 @@ class DetailViewController: UIViewController {
             tweet.favorited = false
             tweet.favoriteCount -= 1
             refreshData()
-            APIManager.shared.unfavorite(with: tweet) { (tweet: Tweet?, error: Error?) in
+            APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error unfavoriting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {
@@ -108,7 +109,7 @@ class DetailViewController: UIViewController {
 
     func refreshData() {
      
-        if(tweet.favorited)! {
+        if(tweet?.favorited)! {
             detailFavoriteButton.setImage(#imageLiteral(resourceName: "favor-icon-red"), for: .normal)
         }
         if(tweet.favorited == false){
@@ -123,11 +124,22 @@ class DetailViewController: UIViewController {
         
         
     }
+    @IBAction func goBackToTL(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+        
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let replyViewController = segue.destination as! ReplyViewController
-        replyViewController.tweet = tweet
+        if segue.identifier == "returnToTL" {
+            
+        }
+        else{
+            let replyViewController = segue.destination as! ReplyViewController
+            replyViewController.tweet = tweet
+        }
     }
+    
+    
     
     
     /*

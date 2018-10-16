@@ -15,14 +15,18 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
+        print("TOP")
         super.viewDidLoad()
-    
+        
         let refreshControl = UIRefreshControl()
          refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
         
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
@@ -33,7 +37,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-
+        print("BOTTOM")
         // Do any additional setup after loading the view.
     }
     
@@ -46,6 +50,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func didLogout(_ sender: Any) {
         APIManager.logout()
     }
+    
     
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
@@ -87,7 +92,6 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
    
     @IBAction func didTapCompose(_ sender: Any) {
-        print("TL")
         self.performSegue(withIdentifier: "composeSegue", sender: nil)
     }
     

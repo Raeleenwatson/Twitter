@@ -33,19 +33,19 @@ class ReplyViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func sendTweet(_ sender: Any) {
-        print("BAD")
         let replyText = tweetTextField.text
         APIManager.shared.replyTweet(with: replyText!, with: String(tweet.id)){(tweet, error) in
             if let error = error {
-                print("BAD2")
                 print("Error composing Tweet: \(error.localizedDescription)")
+                self.dismiss(animated: true, completion: nil)
             } else if let tweet = tweet {
-                print("BAD3")
                 self.delegate?.did(post: tweet)
                 print("Compose Tweet Success!")
+                 self.dismiss(animated: true, completion: nil)
             }
         }
     }
+    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         // TODO: Check the proposed new text character count
         // Allow or disallow the new text

@@ -30,7 +30,6 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         
         super.viewDidLoad()
         composeTweetField.delegate = self
-        print("HI")
         let profileImage = URL(string: (User.current?.profileImage)!)
         composeImageView.af_setImage(withURL: profileImage!)
 
@@ -41,6 +40,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         APIManager.shared.composeTweet(with: composeTweetField.text!) { (tweet, error) in
             if let error = error {
                 print("Error composing Tweet: \(error.localizedDescription)")
+                self.dismiss(animated: true, completion: nil)
             } else if let tweet = tweet {
                 self.delegate?.did(post: tweet)
                 print("Compose Tweet Success!")

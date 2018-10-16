@@ -187,7 +187,7 @@
                                             <outlet property="tweetImageView" destination="B91-cq-gIJ" id="gQ8-Ap-wPm"/>
                                             <outlet property="tweetTextLabel" destination="epC-Fs-Q5Z" id="Dla-4U-hYx"/>
                                             <outlet property="usernameLabel" destination="fVV-tw-RRC" id="LxZ-i1-zkQ"/>
-                                            <segue destination="j4g-Or-ZAs" kind="show" id="DEM-NY-1Nh"/>
+                                            <segue destination="j4g-Or-ZAs" kind="presentation" id="umG-R8-CZA"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -310,7 +310,7 @@
                                 <state key="normal" title="replyButton" image="reply-icon"/>
                                 <connections>
                                     <action selector="onReply:" destination="j4g-Or-ZAs" eventType="touchUpInside" id="NeO-8J-fsu"/>
-                                    <segue destination="940-Kt-u6m" kind="show" id="kwl-Ae-Vlf"/>
+                                    <segue destination="940-Kt-u6m" kind="presentation" id="kwl-Ae-Vlf"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cy2-9I-Sw2">
@@ -359,10 +359,20 @@
                                     <action selector="onFavorite:" destination="j4g-Or-ZAs" eventType="touchUpInside" id="0KC-MD-qlk"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V8A-9S-m0S">
+                                <rect key="frame" x="20" y="34" width="47" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="back-icon"/>
+                                <connections>
+                                    <action selector="goBackToTL:" destination="j4g-Or-ZAs" eventType="touchUpInside" id="O2Y-8b-snm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Tweet" id="XsG-5r-DZs"/>
+                    <navigationItem key="navigationItem" title="Tweet" id="XsG-5r-DZs">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="back-icon" id="GnT-V3-7zh"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="detailCreatedAt" destination="Yor-ro-Dgd" id="0ci-kp-4AV"/>
                         <outlet property="detailFavoriteButton" destination="o9K-zL-TVi" id="9fx-Jx-2sj"/>
@@ -376,7 +386,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wNL-5c-4Bx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2628" y="37"/>
+            <point key="canvasLocation" x="3533.3333333333335" y="36.684782608695656"/>
         </scene>
         <!--Reply View Controller-->
         <scene sceneID="U1s-89-ltT">
@@ -431,7 +441,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBG-jU-TiV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3553.6231884057975" y="36.684782608695656"/>
+            <point key="canvasLocation" x="4460.8695652173919" y="36.684782608695656"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WXZ-z8-8LI">
@@ -472,6 +482,7 @@
     </scenes>
     <resources>
         <image name="TwitterLogoBlue" width="133" height="133"/>
+        <image name="back-icon" width="30" height="30"/>
         <image name="close-icon" width="26" height="24"/>
         <image name="edit-icon" width="30" height="27"/>
         <image name="favor-icon" width="30" height="30"/>

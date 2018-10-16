@@ -37,7 +37,7 @@ class TweetCell: UITableViewCell {
             tweet.favorited = true
             tweet.favoriteCount += 1
             refreshData()
-            APIManager.shared.favorite( tweet) { (tweet: Tweet?, error: Error?) in
+            APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("bad2")
                     print("Error favoriting tweet: \(error.localizedDescription)")
@@ -50,7 +50,7 @@ class TweetCell: UITableViewCell {
             tweet.favorited = false
             tweet.favoriteCount -= 1
             refreshData()
-            APIManager.shared.unfavorite(with: tweet) { (tweet: Tweet?, error: Error?) in
+            APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
                 if let  error = error {
                     print("Error unfavoriting tweet: \(error.localizedDescription)")
                 } else if let tweet = tweet {

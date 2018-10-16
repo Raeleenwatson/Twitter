@@ -51,40 +51,7 @@ class APIManager: SessionManager {
         }
     }
     
-    func unfavorite(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/unfavorite/"
-        let end = ".json"
-        let parameters = ["id": tweet.id]
-        let id = String(tweet.id)
-        let url = urlString + id + end
-        print(url)
-        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
-            if response.result.isSuccess,
-                let tweetDictionary = response.result.value as? [String: Any] {
-                let tweet = Tweet(dictionary: tweetDictionary)
-                completion(tweet, nil)
-            } else {
-                completion(nil, response.result.error)
-            }
-        }
-    }
     
-    func undoRetweet(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/unretweet/"
-        let end = ".json"
-        let parameters = ["id": tweet.id]
-        let id = String(tweet.id)
-        let url = urlString + id + end
-        request(url, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
-            if response.result.isSuccess,
-                let tweetDictionary = response.result.value as? [String: Any] {
-                let tweet = Tweet(dictionary: tweetDictionary)
-                completion(tweet, nil)
-            } else {
-                completion(nil, response.result.error)
-            }
-        }
-    }
     
     func composeTweet(with text: String, completion: @escaping (Tweet?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/statuses/update.json"
@@ -123,12 +90,41 @@ class APIManager: SessionManager {
         NotificationCenter.default.post(name: NSNotification.Name("didLogout"), object: nil)
     }
     
-    func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/favorite/"
-        let idString = String(tweet.id)
+    func unfavorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/favorites/destroy.json"
         let parameters = ["id": tweet.id]
-        let url = urlString + idString + ".json"
-        print(url)
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
+    
+    func undoRetweet(with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/statuses/unretweet/:\(tweet.id)"
+
+        let end = ".json"
+        let parameters = ["id": tweet.id]
+        let id = String(tweet.id)
+        let url = urlString + id + end
+        request(url, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
+    
+    func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/favorites/create.json"
+        let parameters = ["id": tweet.id]
         request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
