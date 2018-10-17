@@ -25,15 +25,27 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var composeTweetField: UITextView!
     
+    var tweet: Tweet!
+
+    var user: User?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         composeTweetField.delegate = self
-        let profileImage = URL(string: (User.current?.profileImage)!)
-        composeImageView.af_setImage(withURL: profileImage!)
+        
+        APIManager.shared.getCurrentAccount { (user: User?, error: Error?)   in
+            
+            if let error = error {
+                print("Error getting user: " + error.localizedDescription)
+            }
+            else if let user = user {
+                
+                self.composeImageView.af_setImage(withURL: user.profileImageUrl)
 
-        // Do any additional setup after loading the view.
+            }
+            
+        }
     }
     
     @IBAction func onTweet(_ sender: Any) {
@@ -48,6 +60,11 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
+    
+    @IBAction func endTweetMessage(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         composeTweetField.text = ""

@@ -39,6 +39,7 @@ class User {
     static var current: User? {
         get {
             if _current == nil {
+                print("HEEERE")
                 let defaults = UserDefaults.standard
                 if let userData = defaults.data(forKey: "currentUserData") {
                     let dictionary = try! JSONSerialization.jsonObject(with: userData, options: []) as! [String: Any]

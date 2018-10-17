@@ -17,7 +17,10 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var createdAtLabel: UILabel!
+    
     @IBOutlet weak var tweetTextLabel: UILabel!
+    
+    
     @IBOutlet weak var retweetLabel: UILabel!
     @IBOutlet weak var favoritedLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
@@ -103,6 +106,14 @@ class TweetCell: UITableViewCell {
         favoritedLabel.text = String(tweet.favoriteCount)
         tweetImageView.image = nil
         
+//        tweetTextLabel = ActiveLabel()
+//
+//        tweetTextLabel.Act
+//        tweetTextLabel.enabledTypes = [.mention, .hashtag, .url]
+//        print("HERE")
+//        tweetTextLabel.handleURLTap { (url) in
+//            UIApplication.shared.openURL(url)
+//        }
         
         if(tweet.favorited)!{
             favoriteButton.setImage(#imageLiteral(resourceName: "favor-icon-red"), for: .normal)

@@ -25,9 +25,11 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
-        
+//        tableView.rowHeight = UITableViewAutomaticDimension
+//        tableView.estimatedRowHeight = 100
+
+        tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+
         APIManager.shared.getHomeTimeLine { (tweets, error) in
             if let tweets = tweets {
                 self.tweets = tweets
@@ -95,16 +97,31 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         self.performSegue(withIdentifier: "composeSegue", sender: nil)
     }
     
+    @IBAction func didTapProfile(_ sender: Any) {
+        self.performSegue(withIdentifier: "profileSegue", sender: nil)
+    }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "profileSegue" {
+           
+        }
+        
+        else if segue.identifier == "composeSegue" {
+            
+        }
+    
+        else {
         if let detailViewController = segue.destination as? DetailViewController {
             let cell = sender as! UITableViewCell
             if let indexPath = tableView.indexPath(for: cell){
                 let tweet = tweets[indexPath.row]
                 detailViewController.tweet = tweet
-            }
+                }
             
+            }
         }
-        
     }
-
 }
+

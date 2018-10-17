@@ -37,6 +37,11 @@ class DetailViewController: UIViewController {
             detailTweetLabel.text = tweet.text
             detailCreatedAt.text = tweet.createdAt
             
+//            detailTweetLabel.enabledTypes = [.mention, .hashtag, .url]
+//            detailTweetLabel.handleURLTap { (url) in UIApplication.shared.openURL(url)
+//            
+//            }
+            
         }
         // Do any additional setup after loading the view.
     }
